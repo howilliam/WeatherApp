@@ -53,4 +53,41 @@ function updateWeatherDashboard(data) {
   `;
 
     todaySection.appendChild(card);
+
+    // Update the 5-day forecast
+    const forecastSection = document.getElementById('forecast');
+    forecastSection.innerHTML = ''; // Clear existing content
+
+    const heading = document.createElement('h2');
+    heading.className = 'text-black mb-3';
+    heading.textContent = '5 Day Forecast:';
+    forecastSection.appendChild(heading);
+
+    // Create a parent container for forecast cards
+    const forecastContainer = document.createElement('div');
+    forecastContainer.className = 'd-flex flex-wrap'; // Use flex-wrap to ensure cards wrap to the next line
+
+
+    for (let i = 0; i < 5; i++) {
+        const forecast = data.list[i + (7 * (i + 1))]; // Theres an entry every 3 hours and an array that is 40 long
+        var formattedDate = dayjs(forecast.dt_txt).format('DD/MM/YYYY');
+
+
+        // Create a card for each day's forecast
+        const card = document.createElement('div');
+        card.className = 'card col text-white bg-dark mr-2 mb-3';
+
+        card.innerHTML = `
+          <div class="card-body">
+            <h5 class="card-title">${formattedDate}</h5>
+            <p class="card-text">Temperature: ${(forecast.main.temp - 273.15).toFixed(1)} °C</p>
+            <p class="card-text">Humidity: ${forecast.main.humidity} %</p>
+            <p class="card-text">Wind Speed: ${forecast.wind.speed} m/s</p>
+          </div>
+        `;
+
+        forecastContainer.appendChild(card);
+    }
+    // Append the forecast container to the forecast section
+    forecastSection.appendChild(forecastContainer);
 }
