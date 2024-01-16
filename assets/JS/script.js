@@ -113,3 +113,34 @@ function updateSearchHistory(city) {
         renderSearchHistory();
     }
 }
+
+// Function to render the search history on the page
+function renderSearchHistory() {
+    const historyList = document.getElementById('history');
+    const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+
+    // Clear existing content
+    historyList.innerHTML = '';
+
+    // Render each city in the search history
+    searchHistory.forEach((lowercaseCity) => {
+        const listItem = document.createElement('button');
+        listItem.className = 'list-group-item';
+        listItem.textContent = originalCity;
+        listItem.addEventListener('click', function () {
+            getWeatherData(lowercaseCity);
+        });
+
+        historyList.appendChild(listItem);
+    });
+}
+
+// Event listener for the form submission
+document.getElementById('search-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const city = document.getElementById('search-input').value;
+    getWeatherData(city);
+});
+
+// Load search history on page load
+renderSearchHistory();
