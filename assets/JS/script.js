@@ -91,3 +91,25 @@ function updateWeatherDashboard(data) {
     // Append the forecast container to the forecast section
     forecastSection.appendChild(forecastContainer);
 }
+
+// Function to update the search history
+function updateSearchHistory(city) {
+    const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    console.log(city)
+    console.log(searchHistory)
+
+    // Convert the city name to lowercase
+    const lowercaseCity = city.toLowerCase();
+    const lowercaseHistory = searchHistory.map(city => city.toLowerCase());
+    // Check if the city is already in the search history
+    if (!lowercaseHistory.includes(lowercaseCity)) {
+        // Add the city to the search history
+        searchHistory.push(city);
+
+        // Update localStorage
+        localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+
+        // Update the displayed history
+        renderSearchHistory();
+    }
+}
