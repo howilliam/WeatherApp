@@ -124,6 +124,7 @@ function renderSearchHistory() {
 
     // Render each city in the search history
     searchHistory.forEach((lowercaseCity) => {
+        const originalCity = capitalizeFirstLetter(lowercaseCity);
         const listItem = document.createElement('button');
         listItem.className = 'list-group-item';
         listItem.textContent = originalCity;
@@ -133,6 +134,11 @@ function renderSearchHistory() {
 
         historyList.appendChild(listItem);
     });
+}
+
+// Function to capitalize the first letter of a string
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 // Event listener for the form submission
