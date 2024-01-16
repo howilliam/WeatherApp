@@ -52,15 +52,6 @@ function updateWeatherDashboard(data) {
     </div>
 `);
 
-//     card.innerHTML = `
-//     <div class="card-body">
-//       <h2 class="card-title">${cityName} (${formattedDate})</h2>
-//       <p class="card-text">Temperature: ${(currentWeather.main.temp - 273.15).toFixed(1)} °C</p>
-//       <p class="card-text">Humidity: ${currentWeather.main.humidity} %</p>
-//       <p class="card-text">Wind Speed: ${currentWeather.wind.speed} m/s</p>
-//     </div>
-//   `;
-
     todaySection.append(card);
 
     // Update the 5-day forecast
@@ -69,16 +60,9 @@ function updateWeatherDashboard(data) {
 
     const heading = $('<h2>').addClass('text-black mb-3').text('5 Day Forecast:');
     forecastSection.append(heading);
-    // document.createElement('h2');
-    // heading.className = 'text-black mb-3';
-    // heading.textContent = '5 Day Forecast:';
-    // forecastSection.appendChild(heading);
 
     // Create a parent container for forecast cards
     const forecastContainer = $('<div>').addClass('d-flex flex-wrap');
-    
-    // document.createElement('div');
-    // forecastContainer.className = 'd-flex flex-wrap'; // Use flex-wrap to ensure cards wrap to the next line
 
 
     for (let i = 0; i < 5; i++) {
@@ -89,10 +73,6 @@ function updateWeatherDashboard(data) {
         // Create a card for each day's forecast
         const card = $('<div>').addClass('card col text-white bg-dark mr-2 mb-3');
         
-        // document.createElement('div');
-        // card.className = 'card col text-white bg-dark mr-2 mb-3';
-
-
         card.html(`
             <div class="card-body">
                 <h5 class="card-title">${formattedDate}</h5>
@@ -101,15 +81,6 @@ function updateWeatherDashboard(data) {
                 <p class="card-text">Wind Speed: ${forecast.wind.speed} m/s</p>
             </div>
         `);
-
-        // card.innerHTML = `
-        //   <div class="card-body">
-        //     <h5 class="card-title">${formattedDate}</h5>
-        //     <p class="card-text">Temperature: ${(forecast.main.temp - 273.15).toFixed(1)} °C</p>
-        //     <p class="card-text">Humidity: ${forecast.main.humidity} %</p>
-        //     <p class="card-text">Wind Speed: ${forecast.wind.speed} m/s</p>
-        //   </div>
-        // `;
 
         forecastContainer.append(card);
     }
