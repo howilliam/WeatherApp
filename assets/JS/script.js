@@ -32,40 +32,53 @@ function getWeatherData(cityName) {
 function updateWeatherDashboard(data) {
     // Extract the relevant information from the API response
     const cityName = data.city.name;
-    const currentWeather = data.list[0]; // Assuming the first entry represents current weather
+    const currentWeather = data.list[0]; // first entry represents current weather
     var formattedDate = dayjs(currentWeather.dt_txt).format('DD/MM/YYYY');
 
     // Update the DOM elements with the retrieved data
-    const todaySection = document.getElementById('today');
-    todaySection.innerHTML = '';
+    const todaySection = $('#today');
+    todaySection.empty();
 
     // Create a card for the current weather
-    const card = document.createElement('div');
+    const card = $('<div>').addClass('card mb-3');
     card.className = 'card mb-3';
 
-    card.innerHTML = `
+    card.html(`
     <div class="card-body">
-      <h2 class="card-title">${cityName} (${formattedDate})</h2>
-      <p class="card-text">Temperature: ${(currentWeather.main.temp - 273.15).toFixed(1)} °C</p>
-      <p class="card-text">Humidity: ${currentWeather.main.humidity} %</p>
-      <p class="card-text">Wind Speed: ${currentWeather.wind.speed} m/s</p>
+        <h2 class="card-title">${cityName} (${formattedDate})</h2>
+        <p class="card-text">Temperature: ${(currentWeather.main.temp - 273.15).toFixed(1)} °C</p>
+        <p class="card-text">Humidity: ${currentWeather.main.humidity} %</p>
+        <p class="card-text">Wind Speed: ${currentWeather.wind.speed} m/s</p>
     </div>
-  `;
+`);
 
-    todaySection.appendChild(card);
+//     card.innerHTML = `
+//     <div class="card-body">
+//       <h2 class="card-title">${cityName} (${formattedDate})</h2>
+//       <p class="card-text">Temperature: ${(currentWeather.main.temp - 273.15).toFixed(1)} °C</p>
+//       <p class="card-text">Humidity: ${currentWeather.main.humidity} %</p>
+//       <p class="card-text">Wind Speed: ${currentWeather.wind.speed} m/s</p>
+//     </div>
+//   `;
+
+    todaySection.append(card);
 
     // Update the 5-day forecast
-    const forecastSection = document.getElementById('forecast');
-    forecastSection.innerHTML = ''; // Clear existing content
+    const forecastSection = $('#forecast');
+    forecastSection.empty(); // Clear existing content
 
-    const heading = document.createElement('h2');
-    heading.className = 'text-black mb-3';
-    heading.textContent = '5 Day Forecast:';
-    forecastSection.appendChild(heading);
+    const heading = $('<h2>').addClass('text-black mb-3').text('5 Day Forecast:');
+    forecastSection.append(heading);
+    // document.createElement('h2');
+    // heading.className = 'text-black mb-3';
+    // heading.textContent = '5 Day Forecast:';
+    // forecastSection.appendChild(heading);
 
     // Create a parent container for forecast cards
-    const forecastContainer = document.createElement('div');
-    forecastContainer.className = 'd-flex flex-wrap'; // Use flex-wrap to ensure cards wrap to the next line
+    const forecastContainer = $('<div>').addClass('d-flex flex-wrap');
+    
+    // document.createElement('div');
+    // forecastContainer.className = 'd-flex flex-wrap'; // Use flex-wrap to ensure cards wrap to the next line
 
 
     for (let i = 0; i < 5; i++) {
@@ -74,22 +87,34 @@ function updateWeatherDashboard(data) {
 
 
         // Create a card for each day's forecast
-        const card = document.createElement('div');
-        card.className = 'card col text-white bg-dark mr-2 mb-3';
+        const card = $('<div>').addClass('card col text-white bg-dark mr-2 mb-3');
+        
+        // document.createElement('div');
+        // card.className = 'card col text-white bg-dark mr-2 mb-3';
 
-        card.innerHTML = `
-          <div class="card-body">
-            <h5 class="card-title">${formattedDate}</h5>
-            <p class="card-text">Temperature: ${(forecast.main.temp - 273.15).toFixed(1)} °C</p>
-            <p class="card-text">Humidity: ${forecast.main.humidity} %</p>
-            <p class="card-text">Wind Speed: ${forecast.wind.speed} m/s</p>
-          </div>
-        `;
 
-        forecastContainer.appendChild(card);
+        card.html(`
+            <div class="card-body">
+                <h5 class="card-title">${formattedDate}</h5>
+                <p class="card-text">Temperature: ${(forecast.main.temp - 273.15).toFixed(1)} °C</p>
+                <p class="card-text">Humidity: ${forecast.main.humidity} %</p>
+                <p class="card-text">Wind Speed: ${forecast.wind.speed} m/s</p>
+            </div>
+        `);
+
+        // card.innerHTML = `
+        //   <div class="card-body">
+        //     <h5 class="card-title">${formattedDate}</h5>
+        //     <p class="card-text">Temperature: ${(forecast.main.temp - 273.15).toFixed(1)} °C</p>
+        //     <p class="card-text">Humidity: ${forecast.main.humidity} %</p>
+        //     <p class="card-text">Wind Speed: ${forecast.wind.speed} m/s</p>
+        //   </div>
+        // `;
+
+        forecastContainer.append(card);
     }
     // Append the forecast container to the forecast section
-    forecastSection.appendChild(forecastContainer);
+    forecastSection.append(forecastContainer);
 }
 
 // Function to update the search history
@@ -116,23 +141,21 @@ function updateSearchHistory(city) {
 
 // Function to render the search history on the page
 function renderSearchHistory() {
-    const historyList = document.getElementById('history');
+    const historyList = $('#history');
     const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
 
     // Clear existing content
-    historyList.innerHTML = '';
+    historyList.empty();
 
     // Render each city in the search history
     searchHistory.forEach((lowercaseCity) => {
         const originalCity = capitalizeFirstLetter(lowercaseCity);
-        const listItem = document.createElement('button');
-        listItem.className = 'list-group-item';
-        listItem.textContent = originalCity;
-        listItem.addEventListener('click', function () {
+        const listItem = $('<button>').addClass('list-group-item').text(originalCity);
+        listItem.on('click', function () {
             getWeatherData(lowercaseCity);
         });
 
-        historyList.appendChild(listItem);
+        historyList.append(listItem);
     });
 }
 
@@ -142,9 +165,9 @@ function capitalizeFirstLetter(string) {
 }
 
 // Event listener for the form submission
-document.getElementById('search-form').addEventListener('submit', function (event) {
+$('#search-form').on('submit', function (event) {
     event.preventDefault();
-    const city = document.getElementById('search-input').value;
+    const city = $('#search-input').val();
     getWeatherData(city);
 });
 
