@@ -13,8 +13,8 @@ function getWeatherData(cityName) {
         })
         .then(function (data) {
 
-               // checks that the api request is successful
-               if (data.cod === '200') {
+            // checks that the api request is successful
+            if (data.cod === '200') {
                 // Process the data and update the weather dashboard
                 updateWeatherDashboard(data);
 
@@ -25,7 +25,7 @@ function getWeatherData(cityName) {
         .catch(function (error) {
             console.error('Error fetching weather data:', error);
         })
-       
+
 }
 
 // Function to update the weather dashboard with the fetched data
@@ -61,7 +61,7 @@ function updateWeatherDashboard(data) {
     const heading = $('<h2>').addClass('text-black mb-3').text('5 Day Forecast:');
     forecastSection.append(heading);
 
-    // Create a parent container for forecast cards
+    // Parent container for forecast cards
     const forecastContainer = $('<div>').addClass('d-flex flex-wrap');
 
 
@@ -70,9 +70,9 @@ function updateWeatherDashboard(data) {
         var formattedDate = dayjs(forecast.dt_txt).format('DD/MM/YYYY');
 
 
-        // Create a card for each day's forecast
+        // Card for each day's forecast
         const card = $('<div>').addClass('card col text-white bg-dark mr-2 mb-3');
-        
+
         card.html(`
             <div class="card-body">
                 <h5 class="card-title">${formattedDate}</h5>
